@@ -14,7 +14,7 @@ class AuthController extends Controller
         return view('login_form');
     }
 
-    // loginの処理
+    // ログインの処理
     public function login(LoginFormRequest $request){
     // バリデーションの処理 LoginFormRequest
     // Authの確認・実装処理
@@ -30,5 +30,24 @@ class AuthController extends Controller
         return back()->withErrors([
             'login_error' => 'メールアドレスまたはパスワードが間違っています。',
         ]);
+    }
+
+    /**
+     * ユーザーをアプリケーションからログアウトさせる
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        // ユーザーのセッション削除
+        Auth::logout();
+        // 全セッションの削除
+        $request->session()->invalidate();
+        // セッションを再生成する
+        $request->session()->regenerateToken();
+
+        return redirect('/')
+            ->with('logout', 'サインアウトしました。');
     }
 }
