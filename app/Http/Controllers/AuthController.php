@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginFormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -15,7 +17,18 @@ class AuthController extends Controller
     // loginの処理
     public function login(LoginFormRequest $request){
     // バリデーションの処理 LoginFormRequest
-        
-        dd($request->all());
+    // Authの確認・実装処理
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+    // home にリダイレクトさせる
+            return redirect('home')
+                ->with('login_success', 'サインインできました。');
+        }
+
+        return back()->withErrors([
+            'login_error' => 'メールアドレスまたはパスワードが間違っています。',
+        ]);
     }
 }

@@ -14,12 +14,23 @@ use App\Http\Controllers\AuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-    // Route::get('/', function () {
-    //     return view('welcome');
-    // });
-    Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
-    
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    // サインイン前の処理
+    // サインインしていないのに、ホーム画面にアクセスできないようにする。
+    Route::middleware(['guest'])->group(function () {
+        // ログインフォームの表示
+        Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
+        // ログイン処理
+        Route::post('/login', [AuthController::class, 'login'])->name('login');
+    });
+
+    // サインイン後の処理
+    // 進む戻るで、サインインフォームに戻らないようにする。
+    Route::middleware(['auth'])->group(function () {
+        // ホーム画面
+        Route::get('home', function () {
+            return view('home');
+        });
+    });
 
     // Route::get('/user', [UserController::class, 'index']);
 
