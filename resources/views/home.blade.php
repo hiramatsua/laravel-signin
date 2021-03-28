@@ -22,6 +22,11 @@
                 <li>名前：{{ Auth::user()->name }}</li>
                 <li>メールアドレス：{{ Auth::user()->email }}</li>
             </ul>
+            <!-- サインアウトのボタン表示と処理 -->
+            <form method="post" action="{{ route('logout') }}">
+                @csrf
+                <button class="btn btn-danger" type="submit">Sign out</button>
+            </form>
         </div>
     </div>
 </body>

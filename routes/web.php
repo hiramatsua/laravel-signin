@@ -20,7 +20,7 @@ use App\Http\Controllers\AuthController;
         // ログインフォームの表示
         Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
         // ログイン処理
-        Route::post('/login', [AuthController::class, 'login'])->name('login');
+        Route::post('login', [AuthController::class, 'login'])->name('login');
     });
 
     // サインイン後の処理
@@ -30,6 +30,8 @@ use App\Http\Controllers\AuthController;
         Route::get('home', function () {
             return view('home');
         });
+        // ログアウト画面
+        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     });
 
     // Route::get('/user', [UserController::class, 'index']);
