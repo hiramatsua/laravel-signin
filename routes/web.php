@@ -17,7 +17,7 @@ use App\Http\Controllers\AuthController;
     // サインイン前の処理
     // サインインしていないのに、ホーム画面にアクセスできないようにする。
     Route::middleware(['guest'])->group(function () {
-        // ログインフォームの表示
+        // ログインフォームの表示// サインイン フォームの表示
         Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
         // ログイン処理
         Route::post('login', [AuthController::class, 'login'])->name('login');
